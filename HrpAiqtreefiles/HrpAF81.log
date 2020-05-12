@@ -1,0 +1,115 @@
+IQ-TREE version 1.3.11.1 for Linux 64-bit built Feb  1 2016
+Copyright (c) 2011-2015 Nguyen Lam Tung, Olga Chernomor, Arndt von Haeseler and Bui Quang Minh.
+
+Host:    ron (AVX2, FMA3, 503 GB RAM)
+Command: iqtree -s msa_HrpA.fasta -m F81 -bb 1000 -pre HrpAF81
+Seed:    368752 (Using SPRNG - Scalable Parallel Random Number Generator)
+Time:    Tue May 12 13:35:01 2020
+Kernel:  AVX
+
+NOTE: Consider using the multicore version because your CPU has 72 cores!
+
+Reading alignment file msa_HrpA.fasta ... Fasta format detected
+Alignment most likely contains DNA/RNA sequences
+Alignment has 11 sequences with 348 columns and 295 patterns (241 informative sites)
+                            Gap/Ambiguity  Composition  p-value
+   1  E.amylovora_1                34.48%    passed     24.88%
+   2  P.amygdali_morsprunorum_1     6.03%    passed     93.02%
+   3  P.amygdali_sesami_1           9.48%    passed     72.09%
+   4  P.cerasi_1                    6.03%    passed     33.07%
+   5  P.cichorii_1                 40.52%    passed     33.75%
+   6  P.coronafaciens_1             0.00%    passed     67.96%
+   7  P.flourescens_beneficial_1   39.66%    passed     94.76%
+   8  P.savastonoi_1                6.03%    passed     84.36%
+   9  P.syringae_maculicola_1       9.48%    passed     49.21%
+  10  P.syringae_tomato_1           1.72%    passed     98.64%
+  11  P.viridiflava_1              40.52%    passed     63.60%
+****  TOTAL                        17.63%  0 sequences failed composition chi2 test (p-value<5%; df=3)
+
+Create initial parsimony tree by phylogenetic likelihood library (PLL)... 0.001 seconds
+Generating 1000 samples for ultrafast bootstrap...
+Max candidate trees (tau): 1100
+
+NOTE: 1 MB RAM is required!
+Estimate model parameters (epsilon = 0.100)
+1. Initial log-likelihood: -2742.811
+Optimal log-likelihood: -2715.027
+Rate parameters:  A-C: 1.000  A-G: 1.000  A-T: 1.000  C-G: 1.000  C-T: 1.000  G-T: 1.000
+Base frequencies:   A: 0.285  C: 0.274  G: 0.271  T: 0.169
+Parameters optimization took 1 rounds (0.002 sec)
+
+--------------------------------------------------------------------
+|             INITIALIZING CANDIDATE TREE SET                      |
+--------------------------------------------------------------------
+Computing ML distances based on estimated model parameters... 0.000 sec
+Computing BIONJ tree...
+0.000 seconds
+Log-likelihood of BIONJ tree: -2713.520
+Generating 98 parsimony trees... 0.050 seconds 2 distinct starting trees
+Computing log-likelihood of 2 initial trees ... 0.000 seconds
+Optimizing top 2 initial trees with NNI...
+Iteration 1 / LogL: -2713.520 / Time: 0h:0m:0s
+Estimate model parameters (epsilon = 0.100)
+BETTER SCORE FOUND at iteration 1: -2713.520
+Iteration 2 / LogL: -2713.711 / Time: 0h:0m:0s
+Average CPU time for 1 NNI search: 0.006
+Finish initializing candidate tree set. Number of distinct locally optimal trees: 1
+Current best tree score: -2713.520 / CPU time: 0.060
+--------------------------------------------------------------------
+|               OPTIMIZING CANDIDATE TREE SET                      |
+--------------------------------------------------------------------
+Iteration 10 / LogL: -2713.520 / Time: 0h:0m:0s
+Iteration 20 / LogL: -2715.659 / Time: 0h:0m:0s (0h:0m:0s left)
+Iteration 30 / LogL: -2713.759 / Time: 0h:0m:0s (0h:0m:0s left)
+Iteration 40 / LogL: -2754.600 / Time: 0h:0m:0s (0h:0m:0s left)
+Iteration 50 / LogL: -2714.299 / Time: 0h:0m:0s (0h:0m:0s left)
+NOTE: 1297 bootstrap candidate trees evaluated (logl-cutoff: -2725.862)
+Iteration 60 / LogL: -2714.165 / Time: 0h:0m:0s (0h:0m:0s left)
+Iteration 70 / LogL: -2714.968 / Time: 0h:0m:0s (0h:0m:0s left)
+Iteration 80 / LogL: -2714.983 / Time: 0h:0m:0s (0h:0m:0s left)
+Iteration 90 / LogL: -2714.371 / Time: 0h:0m:0s (0h:0m:0s left)
+Iteration 100 / LogL: -2713.565 / Time: 0h:0m:0s (0h:0m:0s left)
+NOTE: 3127 bootstrap candidate trees evaluated (logl-cutoff: -2796.546)
+NOTE: Bootstrap correlation coefficient of split occurrence frequencies: 1.000
+TREE SEARCH COMPLETED AFTER 101 ITERATIONS / Time: 0h:0m:0s
+
+--------------------------------------------------------------------
+|                    FINALIZING TREE SEARCH                        |
+--------------------------------------------------------------------
+Performs final model parameters optimization
+Estimate model parameters (epsilon = 0.010)
+1. Initial log-likelihood: -2713.520
+Optimal log-likelihood: -2713.520
+Rate parameters:  A-C: 1.000  A-G: 1.000  A-T: 1.000  C-G: 1.000  C-T: 1.000  G-T: 1.000
+Base frequencies:   A: 0.285  C: 0.274  G: 0.271  T: 0.169
+Parameters optimization took 1 rounds (0.001 sec)
+
+BEST SCORE FOUND : -2713.520
+Creating bootstrap support values...
+Split supports printed to NEXUS file HrpAF81.splits.nex
+Total tree length: 3.406
+
+Total number of iterations: 101
+CPU time used for tree search: 0.800 sec (0h:0m:0s)
+Wall-clock time used for tree search: 0.799 sec (0h:0m:0s)
+Total CPU time used: 0.844 sec (0h:0m:0s)
+Total wall-clock time used: 0.844 sec (0h:0m:0s)
+
+Computing bootstrap consensus tree...
+Reading input file HrpAF81.splits.nex...
+11 taxa and 37 splits.
+Consensus tree written to HrpAF81.contree
+Log-likelihood of consensus tree: -2713.520
+Reading input trees file HrpAF81.contree
+
+Analysis results written to: 
+  IQ-TREE report:                HrpAF81.iqtree
+  Maximum-likelihood tree:       HrpAF81.treefile
+  Likelihood distances:          HrpAF81.mldist
+
+Ultrafast bootstrap approximation results written to:
+  Split support values:          HrpAF81.splits.nex
+  Consensus tree:                HrpAF81.contree
+  Screen log file:               HrpAF81.log
+
+Date and Time: Tue May 12 13:35:02 2020

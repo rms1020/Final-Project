@@ -1,0 +1,65 @@
+#nexus
+
+BEGIN Taxa;
+DIMENSIONS ntax=11;
+TAXLABELS
+[1] 'E.amylovora_1'
+[2] 'P.amygdali_morsprunorum_1'
+[3] 'P.amygdali_sesami_1'
+[4] 'P.cerasi_1'
+[5] 'P.cichorii_1'
+[6] 'P.coronafaciens_1'
+[7] 'P.flourescens_beneficial_1'
+[8] 'P.savastonoi_1'
+[9] 'P.syringae_maculicola_1'
+[10] 'P.syringae_tomato_1'
+[11] 'P.viridiflava_1'
+;
+END; [Taxa]
+
+BEGIN Splits;
+DIMENSIONS ntax=11 nsplits=39;
+FORMAT labels=no weights=yes confidences=no intervals=no;
+MATRIX
+	100	 11,
+	100	 5,
+	93	 5 11,
+	100	 6,
+	100	 10,
+	100	 9,
+	100	 3,
+	100	 3 9,
+	100	 8,
+	100	 2,
+	69	 2 8,
+	100	 4,
+	91	 2 4 8,
+	100	 2 3 4 8 9,
+	19	 1 5 6 7 11,
+	99	 1 5 7 11,
+	100	 7,
+	75	 1 5 11,
+	100	 1,
+	68	 6 10,
+	22	 2 4,
+	21	 5 7 11,
+	13	 1 5 7 10 11,
+	9	 3 4 9,
+	5	 3 4 8 9,
+	4	 1 11,
+	4	 1 7,
+	3	 1 5,
+	0	 2 3 4 8,
+	0	 5 6 7 10 11,
+	2	 4 8,
+	3	 2 3 4 9,
+	1	 1 6 10,
+	0	 5 7 10 11,
+	0	 1 5 7,
+	0	 5 7,
+	0	 2 4 8 9,
+	0	 5 6 7 11,
+	0	 1 5 6 10 11,
+;
+END; [Splits]
+
