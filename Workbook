@@ -1,0 +1,204 @@
+First, all Pseudomonas HrpZ genes (genomicDNA) and the outgroup HrpZ gene i.e. Marinomonas sp. 
+  # P.amygdali pv. sesami
+  curl -LO https://www.ebi.ac.uk/ena/data/view/BAD20864
+  # P.amygdali pv. morsprunorum
+  curl -LO https://www.ebi.ac.uk/ena/browser/api/fasta/BAD20864.1
+  # P.syringae pv. tomato
+  curl -LO https://www.ebi.ac.uk/ena/browser/api/fasta/BAD20880.1
+  # P.syringae pv. Maculicola
+  curl -LO https://www.ebi.ac.uk/ena/browser/api/fasta/BAD20872.1
+  # P. coronafaciens pv. oryzae
+  curl -LO https://www.ebi.ac.uk/ena/browser/api/fasta/BAD20932.1
+  # P. viridiflava 
+  curl -LO https://www.ebi.ac.uk/ena/browser/api/fasta/AAX52286.1
+  # P. cichorii 
+  curl -LO https://www.ebi.ac.uk/ena/browser/api/fasta/ABA47309.1
+  # P. savastonoi pv. phaseolicola
+  curl -LO https://www.ebi.ac.uk/ena/browser/api/fasta/AAS20457.1
+  # P. cerasi 
+  curl -LO https://www.ebi.ac.uk/ena/browser/api/fasta/SOS16731.1
+  # P. flourescens 
+  curl -LO https://www.ebi.ac.uk/ena/browser/api/fasta/EJZ58383.1
+  # M. mediterranea
+  curl -LO https://www.ebi.ac.uk/ena/browser/api/fasta/ADZ90360.1
+  
+The full genome assemblies of three Pseudomonas species which did not have publically available HrpZ genes were also downloaded
+  # P. mosseli
+  curl -LO ftp://ftp.ebi.ac.uk/pub/databases/ena/wgs/public/ls/LSLE01.fasta.gz
+  # P. aeruginosa 
+  curl -LO ftp://ftp.ebi.ac.uk/pub/databases/ena/wgs/public/jh/JHEU01.fasta.gz
+  # P. massiliensis
+  curl -LO ftp://ftp.ebi.ac.uk/pub/databases/ena/wgs/public/cc/CCYK01.fasta.gz
+  
+HrpZ gene file names were reformated 
+  mv filename Genusspecies_Hrpz
+
+genome assembly names were reformated 
+  mv filename.fasta.gz Genusspecies_genome.fasta.gz
+ 
+The HrpZ gene files were formatted in a way where the sequence data was broken up into multiple lines, so this was fixed with
+  awk '{if(NR==1) {print $0} else {if($0 ~ /^>/) {print "\n"$0} else {printf $0}}}' Genusspecies_HrpZ > fixed_Genusspecies_HrpZ.fasta
+The headers of these files were also changed to just be headed wih their species - an example is:
+  awk '/^>/{print ">P. syringae pv. tomato_" ++i; next}{print}' fixed_Psyringae_tomato_HrpZ.fasta > Psyringae_HrpZ.fasta
+ this was done with each fixed file
+ 
+All HrpZ files were removed from directory other that those that had the corrected headers
+HrpZ genes were combined in to one file to be used as a HrpZ database:
+  cat *HrpZ.fasta > HrpZ_genes.fasta
+
+unzipped the full genome assemblies
+  gzip -d Pmassiliensis_genome.fa.gz
+  gzip -d Paeruginosa_genome.fa.gz
+  gzip -d Paeruginosa_massiliensis.fa.gz
+I searched within these files for the HrpZ gene
+  ex. grep -w HRPZ Pmassiliensis_genome.fa.gz
+      grep -w HrpZ Pmassiliensis_genome.fa.gz
+      grep -w Harpin Pmassiliensis_genome.fa.gz
+      grep -w HARPIN Pmassiliensis_genome.fa.gz
+These searches all came up empty and after looking into these genomes, I realized that they were not annotated
+
+Next, I attempt to blast the genomes with the HrpZ_genes.fasta as a database to search for any maches to the HrpZ gene within the full genomes, as I could not find annotated full Pseudomonas genomes online to use as a database.
+  makeblastdb -in HrpZ_genes.fasta -out HrpZdb.out -dbtype nucl
+  blastn -db HrpZdb.out -max_target_seqs 1 -query Pmassiliensis.fasta -outfmt '6 qseqid qlen length pident gaps evalue stitle' -evalue 1e-10 -num_threads 6 -out Pmassiliensis_HrpZ.out
+The output file was empty, thus this did not work.
+
+...Back to the drawing board
+at this point I am going back online to see if I can find some publically available HrpZ genes from non plant pathogenic Pseudomonas to compare to all the others
+the P. flourescens_HrpZ gene I already downloaded came from a cave and is non pathogenic, renamed it:
+  mv Pflourescens_HrpZ.fasta P.flourescens_cave_HrpZ.fasta
+I downloaded another non pathogeneic P. flourescens HrpZ gene (it is used as a plant beneficial microbe)
+  curl -LO https://www.ebi.ac.uk/ena/browser/api/fasta/KIR18477.1
+  mv KIR18477.1 Pflourescens_beneficial_HrpZ
+And another non pathogenic Pseudomonas species HrpZ gene isolated from a lake in Antarctica
+  curl -LO https://www.ebi.ac.uk/ena/browser/api/fasta/ANF89252.1
+  mv ANF89252.1 Pantarctica_HrpZ
+  
+Those were reformated in the same way as earlier HrpZ genes
+  awk '{if(NR==1) {print $0} else {if($0 ~ /^>/) {print "\n"$0} else {printf $0}}}' Pflourescens_beneficial_HrpZ > fixed_Pflourescens_beneficial_HrpZ.fasta
+  awk '/^>/{print ">P. flourescens beneficial" ++i; next}{print}' fixed_Pflourescens_beneficial_HrpZ.fasta > Pflourescens_beneficial_HrpZ.fasta
+  
+  awk '{if(NR==1) {print $0} else {if($0 ~ /^>/) {print "\n"$0} else {printf $0}}}' Pantarctica_HrpZ > fixed_Pantarctica_HrpZ.fasta
+  awk '/^>/{print ">P. antarctica" ++i; next}{print}' fixed_Pantarctica_HrpZ.fasta > Pantarctica_HrpZ.fasta
+  
+I then added these new HrpZ files to the HrpZ_genes.fasta file
+  cat Pantarctica_HrpZ.fasta Pflourescens_beneficial_HrpZ.fasta >> HrpZ_genes.fasta
+ 
+ 
+Now... To build the Phylogenetic tree:
+  created a msa file of my HrpZ_genes.fasta
+    mafft --auto HrpZ_genes.fasta > msa_HrpZ.fasta
+  Build the tree using iqtree:
+    iqtree -s msa_HrpZ.fasta -m LG -bb 1000 -pre HrpZ
+  I received an error message asking be to change the names of sequences, this is likely because I used spaces in the names. So I will rename all of the original files replacing the spaces with "_" or deleting spaces, re-combine into a Hrp_gene file and try again
+  rm Pantarctica_HrpZ.fasta
+  rm Pflourescens_beneficial_HrpZ.fasta
+  awk '/^>/{print ">P.antarctica" ++i; next}{print}' fixed_Pantarctica_HrpZ.fasta > Pantarctica_1HrpZ.fasta
+  awk '/^>/{print ">P.flourescens_cave_" ++i; next}{print}' Pflourescens_HrpZ.fasta > Pflourescens_cave_1HrpZ.fasta
+  awk '/^>/{print ">P.flourescens_beneficial_" ++i; next}{print}' fixed_Pflourescens_beneficial_HrpZ.fasta > Pflourescens_beneficial_1HrpZ.fasta
+  awk '/^>/{print ">M.mediterranea_" ++i; next}{print}' Mmediterranea_HrpZ.fasta > Mmediterranea_1HrpZ.fasta
+  awk '/^>/{print ">P.cerasi_" ++i; next}{print}' Pcerasi_HrpZ.fasta > Pcerasi_1HrpZ.fasta
+  awk '/^>/{print ">P.amygdali_morsprunorum_" ++i; next}{print}' Pamygdali_morsprunorum_HrpZ.fasta > Pamygdali_morsprunorum_1HrpZ.fasta
+  awk '/^>/{print ">P.savastanoi_" ++i; next}{print}' Psavastanoi_HrpZ.fasta > Psavastanoi_1HrpZ.fasta
+  awk '/^>/{print ">P.cichorii_" ++i; next}{print}' Pcichorii_HrpZ.fasta > Pcichori_1HrpZ.fasta
+  awk '/^>/{print ">P.viridiflava_" ++i; next}{print}' Pviridiflava_HrpZ.fasta > Pviridizlava_1HrpZ.fasta
+  awk '/^>/{print ">P.coronafaciens" ++i; next}{print}' Pcoronafaciens_HrpZ.fasta > Pcoronafaciens_1HrpZ.fasta
+  awk '/^>/{print ">P.amygdali_sesami_" ++i; next}{print}' Pamygdali_sesami_HrpZ.fasta > Pamygdali_sesami_1HrpZ.fasta
+  awk '/^>/{print ">P.syringae_maculicola_" ++i; next}{print}' Psyringae_maculicola_HrpZ.fasta > Psyringae_maculicola_cave_1HrpZ.fasta
+  awk '/^>/{print ">P.syringae_tomato_" ++i; next}{print}' Psyringae_tomato_HrpZ.fasta > Psyringae_tomato_1HrpZ.fasta
+  
+  rm HrpZ_genes.fasta
+  cat *1HrpZ.fasta > HrpZ_genes.fasta
+  
+  created a msa file of my HrpZ_genes.fasta
+    mafft --auto HrpZ_genes.fasta > msa_HrpZ.fasta
+  Build the tree using iqtree:
+  TEST model
+    iqtree -s msa_HrpZ.fasta -m TEST -bb 1000 -pre HrpZTEST
+  cat HrpZTEST.contree
+    (M.:0.846862,((((((P.amygdali_morsprunorum_1:0.005521,P.savastanoi_1:0.004397)100:0.128781,((P.amygdali_sesami_1:0.022292,P.syringae_maculicola_1:0.019932)100:0.173820,P.cerasi_1:0.122418)68:0.035982)99:0.143043,(P.coronafaciens1:0.186379,P.syringae_tomato_1:0.143096)100:0.142734)72:0.173057,P.antarctica1:0.727078)97:0.267368,P.flourescens_cave_1:0.919118)56:0.152722,P.flourescens_beneficial_1:0.971327)93:0.220550,(P.cichorii_1:0.200300,P.viridiflava_1:0.096414)100:0.377572);
+  
+  JC model
+    iqtree -s msa_HrpZ.fasta -m JC -bb 1000 -pre HrpZJC
+  cat HrpZJC.contree
+    (M.:0.557437,((((((P.amygdali_morsprunorum_1:0.004661,P.savastanoi_1:0.005048)100:0.108362,((P.amygdali_sesami_1:0.020664,P.syringae_maculicola_1:0.020584)100:0.150375,P.cerasi_1:0.108945)75:0.039368)100:0.117078,(P.coronafaciens1:0.164508,P.syringae_tomato_1:0.127171)100:0.109906)94:0.129100,P.antarctica1:0.482542)98:0.131954,P.flourescens_beneficial_1:0.546830)64:0.073783,P.flourescens_cave_1:0.504030)97:0.139026,(P.cichorii_1:0.171796,P.viridiflava_1:0.088071)100:0.247700);
+
+  F81 model 
+     iqtree -s msa_HrpZ.fasta -m F81 -bb 1000 -pre HrpZF81
+  cat HrpZF81.contree
+    (M.:0.541596,((((((P.amygdali_morsprunorum_1:0.005282,P.savastanoi_1:0.004431)100:0.108079,((P.amygdali_sesami_1:0.020593,P.syringae_maculicola_1:0.020650)100:0.150366,P.cerasi_1:0.109676)80:0.039642)100:0.120766,(P.coronafaciens1:0.163913,P.syringae_tomato_1:0.128885)99:0.108773)91:0.128535,P.antarctica1:0.491170)97:0.135410,P.flourescens_beneficial_1:0.562194)71:0.080973,P.flourescens_cave_1:0.531025)97:0.136714,(P.cichorii_1:0.171267,P.viridiflava_1:0.089315)100:0.256887);
+   
+  GTR model
+    iqtree -s msa_HrpZ.fasta -m GTR -bb 1000 -pre HrpZGTR
+  cat HrpZGTR.contree
+    (M.:0.570400,((((((P.amygdali_morsprunorum_1:0.005220,P.savastanoi_1:0.004496)100:0.114450,((P.amygdali_sesami_1:0.021774,P.syringae_maculicola_1:0.019338)100:0.154211,P.cerasi_1:0.110787)73:0.035569)100:0.120126,(P.coronafaciens1:0.164336,P.syringae_tomato_1:0.130304)100:0.118683)95:0.136751,P.antarctica1:0.519111)97:0.152471,P.flourescens_beneficial_1:0.613315)63:0.084931,P.flourescens_cave_1:0.578684)91:0.133351,(P.cichorii_1:0.167376,P.viridiflava_1:0.095909)100:0.296271);
+
+Each of the Contree scripts were then copied into FigTree to create phylogenetic trees and nodes were labelled with "label"
+
+
+
+Part 2.
+I then decided to make a phylogeny and  compare the organism's HrpA genes to the HrpZ phylogenies. I was able to find Hrp A genes for all organisms but P. antarctica and the P. flourescens strain isolated from a cave. I will also use Erwinia Amylovora HrpA as an outgroup this time instead
+  # P.amygdali pv. sesami
+  curl -LO https://www.ebi.ac.uk/ena/browser/api/fasta/BAD20863.1 
+  mv BAD20863.1 Pamygdali_sesami_HrpA
+  # P.amygdali pv. morsprunorum
+  curl -LO https://www.ebi.ac.uk/ena/browser/api/fasta/BAD20851.1
+  mv BAD20851.1 Pamygdali_morsprunorum_HrpA
+  # P.syringae pv. tomato
+  curl -LO https://www.ebi.ac.uk/ena/browser/api/fasta/BAD20879.1
+  mv BAD20879.1 Psyringae_tomato_HrpA
+  # P.syringae pv. Maculicola
+  curl -LO https://www.ebi.ac.uk/ena/browser/api/fasta/BAD20871.1
+  mv BAD20871.1 Psyringae_Maculicola
+  # P. coronafaciens pv. oryzae
+  curl -LO https://www.ebi.ac.uk/ena/browser/api/fasta/KPB52891.1
+  mv KPB52891.1 Pcoronafaciens_HrpA
+  # P. viridiflava 
+  curl -LO https://www.ebi.ac.uk/ena/browser/api/fasta/AAX52263.1
+  mv AAX52263.1 Pviridiflava_HrpA
+  # P. cichorii 
+  curl -LO https://www.ebi.ac.uk/ena/browser/api/fasta/BAG24129.1
+  mv BAG24129.1 Pcichorii_HrpA
+  # P. savastonoi pv. phaseolicola
+  curl -LO https://www.ebi.ac.uk/ena/browser/api/fasta/BAD20823.1
+  mv BAD20823.1 Psavastonoi_HrpA
+  # P. cerasi 
+  curl -LO https://www.ebi.ac.uk/ena/browser/api/fasta/CZT27624.1
+  mv CZT27624.1 Pcerasi_HrpA
+  # P. flourescens_beneficial
+  curl -LO https://www.ebi.ac.uk/ena/browser/api/fasta/AEV65558.1
+  mv AEV65558.1 Pflourescens_beneficial_HrpA
+  # E. amylovora
+  curl -LO https://www.ebi.ac.uk/ena/browser/api/fasta/AAB49172.1
+  mv AAB49172.1 Eamylovora_HrpA
+  
+ I then renamed the header of each file:
+ awk '/^>/{print ">P.syringae_tomato_" ++i; next}{print}' Psyringae_tomato_HrpA > Psyringae_tomato_HrpA.fasta
+ awk '/^>/{print ">P.amygdali_sesami_" ++i; next}{print}' Pamygdali_sesami_HrpA > Pamygdali_sesami_HrpA.fasta
+ awk '/^>/{print ">P.amygdali_morsprunorum_" ++i; next}{print}' Pamygdali_morsprunorum_HrpA > Pamygdali_morsprunorum_HrpA.fasta
+ awk '/^>/{print ">P.syringae_maculicola_" ++i; next}{print}' Psyringae_Maculicola > Psyringae_maculicola_HrpA.fasta
+ awk '/^>/{print ">P.coronafaciens_" ++i; next}{print}' Pcoronafaciens_HrpA > Pcoronafaciens_HrpA.fasta
+ awk '/^>/{print ">P.viridiflava_" ++i; next}{print}' Pviridiflava_HrpA > Pviridiflava_HrpA.fasta
+ awk '/^>/{print ">P.cichorii_" ++i; next}{print}' Pcichorii_HrpA > Pcichorii_HrpA.fasta
+ awk '/^>/{print ">P.savastonoi_" ++i; next}{print}' Psavastonoi_HrpA > Psavastonoi_HrpA.fasta
+ awk '/^>/{print ">P.cerasi_" ++i; next}{print}' Pcerasi_HrpA > Pcerasi_HrpA.fasta
+ awk '/^>/{print ">P.flourescens_beneficial_" ++i; next}{print}' Pflourescens_beneficial_HrpA > Pflourescens_beneficial_HrpA.fasta
+ awk '/^>/{print ">E.amylovora_" ++i; next}{print}' Eamylovora_HrpA > Eamylovora_HrpA.fasta
+ 
+ I then reformatted their sequences and combined hem into one document with this command: 
+ awk '{if(NR==1) {print $0} else {if($0 ~ /^>/) {print "\n"$0} else {printf $0}}}' *HrpA.fasta > HrpAgenes.fasta
+ 
+ I then performed a multiple sequence alignment on this file 
+ mafft --auto HrpAgenes.fasta > msa_HrpA.fasta
+ 
+ I then built a tree with iqtree 
+ JC model
+  iqtree -s msa_HrpA.fasta -m JC -bb 1000 -pre HrpAJC
+  cat HrpAJC.contree
+  (E.amylovora_1:0.581248,(((((P.amygdali_morsprunorum_1:0.006610,P.savastonoi_1:0.015101)69:0.057093,P.cerasi_1:0.089059)91:0.233731,(P.amygdali_sesami_1:0.034935,P.syringae_maculicola_1:0.021295)100:0.339674)100:0.491279,(P.coronafaciens_1:0.131296,P.syringae_tomato_1:0.215750)68:0.090845)99:0.321079,P.flourescens_beneficial_1:0.282989)75:0.123987,(P.cichorii_1:0.090716,P.viridiflava_1:0.053294)93:0.195053);
+ 
+ F81 model
+  iqtree -s msa_HrpA.fasta -m F81 -bb 1000 -pre HrpAF81
+  cat HrpAF81.contree
+  (E.amylovora_1:0.583177,(((((P.amygdali_morsprunorum_1:0.006914,P.savastonoi_1:0.014815)63:0.057471,P.cerasi_1:0.089443)94:0.248673,(P.amygdali_sesami_1:0.035574,P.syringae_maculicola_1:0.020718)100:0.333138)100:0.483886,(P.coronafaciens_1:0.133687,P.syringae_tomato_1:0.216131)74:0.106714)98:0.321349,P.flourescens_beneficial_1:0.281094)73:0.124237,(P.cichorii_1:0.092302,P.viridiflava_1:0.052409)95:0.203520);
+
