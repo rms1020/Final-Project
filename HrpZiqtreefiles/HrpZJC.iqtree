@@ -1,0 +1,147 @@
+IQ-TREE 1.3.11.1 built Feb  1 2016
+
+Input file name: msa_HrpZ.fasta
+Type of analysis: tree reconstruction + ultrafast bootstrap (1000 replicates)
+Random seed number: 683468
+
+REFERENCES
+----------
+
+To cite IQ-TREE please use:
+
+Lam-Tung Nguyen, Heiko A. Schmidt, Arndt von Haeseler, and Bui Quang Minh (2015)
+IQ-TREE: A fast and effective stochastic algorithm for estimating
+maximum likelihood phylogenies. Mol. Biol. Evol., 32:268-274.
+
+Since you also used ultrafast bootstrap (UFBoot) please cite: 
+
+Bui Quang Minh, Minh Anh Thi Nguyen, and Arndt von Haeseler (2013) Ultrafast
+approximation for phylogenetic bootstrap. Mol. Biol. Evol., 30:1188-1195.
+
+SEQUENCE ALIGNMENT
+------------------
+
+Input data: 13 sequences with 1776 nucleotide sites
+Number of constant sites: 585 (= 32.9392% of all sites)
+Number of site patterns: 1228
+
+SUBSTITUTION PROCESS
+--------------------
+
+Model of substitution: JC
+
+Rate parameter R:
+
+  A-C: 1.0000
+  A-G: 1.0000
+  A-T: 1.0000
+  C-G: 1.0000
+  C-T: 1.0000
+  G-T: 1.0000
+
+State frequencies: (equal frequencies)
+
+Rate matrix Q:
+
+  A        -1    0.3333    0.3333    0.3333
+  C    0.3333        -1    0.3333    0.3333
+  G    0.3333    0.3333        -1    0.3333
+  T    0.3333    0.3333    0.3333        -1
+
+Model of rate heterogeneity: Uniform
+
+MAXIMUM LIKELIHOOD TREE
+-----------------------
+
+Log-likelihood of the tree: -12375.9020 (s.e. 197.2239)
+Unconstrained log-likelihood (without tree): -11559.6613
+Number of free parameters (#branches + #model parameters): 23
+Akaike information criterion (AIC) score: 24797.8040
+Corrected Akaike information criterion (AICc) score: 24798.4341
+Bayesian information criterion (BIC) score: 24923.8927
+
+Total tree length (sum of branch lengths): 4.0489
+Sum of internal branch lengths: 1.2467 (30.7910% of tree length)
+
+NOTE: Tree is UNROOTED although outgroup taxon 'M.' is drawn at root
+Numbers in parentheses are  ultrafast bootstrap support (%)
+
++---------------------------------------M.
+|
+|                                               +--P.amygdali_morsprunorum_1
+|                                        +------| (100)
+|                                        |      +--P.savastanoi_1
+|                                +-------| (100)
+|                                |       |            +--P.amygdali_sesami_1
+|                                |       |  +---------| (100)
+|                                |       |  |         +--P.syringae_maculicola_1
+|                                |       +--| (75)
+|                                |          +------P.cerasi_1
+|                       +--------| (94)
+|                       |        |      +----------P.coronafaciens1
+|                       |        +------| (100)
+|                       |               +--------P.syringae_tomato_1
+|              +--------| (98)
+|              |        +---------------------------------P.antarctica1
+|         +----| (64)
+|         |    +--------------------------------------P.flourescens_beneficial_1
++---------| (97)
+|         +-----------------------------------P.flourescens_cave_1
+|
+|                +-----------P.cichorii_1
++----------------| (100)
+                 +-----P.viridiflava_1
+
+Tree in newick format:
+
+(M.:0.557381,((((((P.amygdali_morsprunorum_1:0.004662,P.savastanoi_1:0.005048)100:0.108357,((P.amygdali_sesami_1:0.020663,P.syringae_maculicola_1:0.020585)100:0.150377,P.cerasi_1:0.108948)75:0.039371)100:0.117050,(P.coronafaciens1:0.164503,P.syringae_tomato_1:0.127174)100:0.109924)94:0.129195,P.antarctica1:0.482528)98:0.131831,P.flourescens_beneficial_1:0.546811)64:0.073830,P.flourescens_cave_1:0.504027)97:0.139002,(P.cichorii_1:0.171825,P.viridiflava_1:0.088026)100:0.247749);
+
+CONSENSUS TREE
+--------------
+
+Consensus tree is constructed from 1000 bootstrap trees
+Log-likelihood of consensus tree: -12375.901990
+Robinson-Foulds distance between ML tree and consensus tree: 0
+
+Branches with bootstrap support >0.000000% are kept (extended consensus)
+Branch lengths are optimized by maximum likelihood on original alignment
+Numbers in parentheses are bootstrap supports (%)
+
++---------------------------------------M.
+|
+|                                               +--P.amygdali_morsprunorum_1
+|                                        +------| (100)
+|                                        |      +--P.savastanoi_1
+|                                +-------| (100)
+|                                |       |            +--P.amygdali_sesami_1
+|                                |       |  +---------| (100)
+|                                |       |  |         +--P.syringae_maculicola_1
+|                                |       +--| (75)
+|                                |          +------P.cerasi_1
+|                       +--------| (94)
+|                       |        |      +----------P.coronafaciens1
+|                       |        +------| (100)
+|                       |               +--------P.syringae_tomato_1
+|              +--------| (98)
+|              |        +---------------------------------P.antarctica1
+|         +----| (64)
+|         |    +--------------------------------------P.flourescens_beneficial_1
++---------| (97)
+|         +-----------------------------------P.flourescens_cave_1
+|
+|                +-----------P.cichorii_1
++----------------| (100)
+                 +-----P.viridiflava_1
+
+
+Consensus tree in newick format: 
+
+(M.:0.5574370,((((((P.amygdali_morsprunorum_1:0.0046610,P.savastanoi_1:0.0050480)100:0.1083620,((P.amygdali_sesami_1:0.0206640,P.syringae_maculicola_1:0.0205840)100:0.1503750,P.cerasi_1:0.1089450)75:0.0393680)100:0.1170780,(P.coronafaciens1:0.1645080,P.syringae_tomato_1:0.1271710)100:0.1099060)94:0.1291000,P.antarctica1:0.4825420)98:0.1319540,P.flourescens_beneficial_1:0.5468300)64:0.0737830,P.flourescens_cave_1:0.5040300)97:0.1390260,(P.cichorii_1:0.1717960,P.viridiflava_1:0.0880710)100:0.2477000);
+
+TIME STAMP
+----------
+
+Date and time: Mon May 11 16:50:46 2020
+Total CPU time used: 3.7 seconds (0h:0m:3s)
+Total wall-clock time used: 3.721619 seconds (0h:0m:3s)
+
